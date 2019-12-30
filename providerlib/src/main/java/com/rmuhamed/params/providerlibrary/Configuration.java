@@ -8,7 +8,7 @@ public final class Configuration {
     private String authority;
     private String tableName;
 
-    private Configuration(Builder builder) {
+    private Configuration(ProviderBuilder builder) {
         if (builder.authority == null) {
             throw new RuntimeException("Provider authority was not provided");
         }
@@ -21,23 +21,37 @@ public final class Configuration {
         this.tableName = builder.tableName;
     }
 
+    private Configuration(ClientBuilder builder) {
+        this.tableName = builder.tableName;
+        this.authority = builder.authority;
+    }
+
     public Uri getAuthorityUri() {
         return Uri.parse(String.format("content://%s/%s", this.authority, this.tableName));
     }
 
-    public static class Builder {
+    public static class ProviderBuilder {
         private String authority;
         private String tableName;
 
-        public Builder tableName(@NonNull String tableName) {
+        public ProviderBuilder tableName(@NonNull String tableName) {
             this.tableName = tableName;
             return this;
         }
 
-        public Builder authority(@NonNull String authority) {
+        public ProviderBuilder authority(@NonNull String authority) {
             this.authority = authority;
             return this;
         }
+
+        public Configuration build() {
+            return new Configuration(this);
+        }
+    }
+
+    public static class ClientBuilder {
+        private String authority = ParamContract.AUTHORITY;
+        private String tableName = ParamContract.TABLE_NAME;
 
         public Configuration build() {
             return new Configuration(this);
