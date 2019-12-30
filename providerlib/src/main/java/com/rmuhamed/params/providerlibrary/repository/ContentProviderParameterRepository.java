@@ -7,6 +7,7 @@ import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
+import com.rmuhamed.params.providerlibrary.Configuration;
 import com.rmuhamed.params.providerlibrary.Param;
 import com.rmuhamed.params.providerlibrary.ParamContract;
 import com.rmuhamed.params.providerlibrary.QueryObject;
@@ -18,8 +19,8 @@ public final class ContentProviderParameterRepository implements ParameterReposi
     private Uri contentUri;
     private Context context;
 
-    public ContentProviderParameterRepository(Context context) {
-        this.contentUri = ParamContract.AUTHORITY_URI;
+    public ContentProviderParameterRepository(Context context, Configuration configuration) {
+        this.contentUri = configuration.getAuthorityUri();
         this.context = context;
     }
 
